@@ -1,0 +1,29 @@
+{
+  "name": "viu-danmaku",
+  "version": "1.0.0",
+  "description": "ViuTV with Danmaku",
+  "scripts": {
+    "start": "node ./bin/www"
+  },
+  "dependencies": {
+    "express": "~4.13.1",
+    "crossdomain": "^0.0.1",
+    "lru-cache": "^4.0.0",
+    "request": "^2.67.0",
+    "cors": "^2.7.1",
+    "morgan": "^1.7.0",
+    "socket.io": "^1.4.6",
+    "socket-anti-spam": "^1.0.0"
+  },
+  "main": "app.js",
+  "author": "Kenneth Bus",
+  "license": "GPL-3.0",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/fukingbus/viu-danmaku.git"
+  },
+  "bugs": {
+    "url": "https://github.com/fukingbus/viu-danmaku/issues"
+  },
+  "homepage": "https://github.com/fukingbus/viu-danmaku#readme"
+}
