@@ -1,12 +1,18 @@
 var crossdomain = require('crossdomain'),
     logger = require('morgan'),
+    http = require('http'),
+    request = require('request'),
     cors = require('cors');
 var express = require('express');
 var app = express();
-var http = require('http').Server(app);
-var io = require('socket.io')(http);
+var httpServer = require('http').Server(app);
+var io = require('socket.io')(httpServer);
 var antiSpammer = require('socket-anti-spam');
 var currentOnline = 0;
+var todayEpg = [];
+var currentProg,nextProg;
+var epgUpdateTimer,programmeUpdateTimer;
+
 antiSpammer.init({
     banTime: 30,            // Ban time in minutes
     kickThreshold: 2,       // User gets kicked after this many spam score
@@ -16,12 +22,15 @@ antiSpammer.init({
     heartBeatCheck: 4,      // Checks a heartbeat per this many seconds 
     io: io,          // Bind the socket.io variable
 });
-http.listen(8081, function(){
+httpServer.listen(8081, function(){
   console.log(new Date().toISOString() + ": server started on port 8081");
+    setTimeout(parseEPG, 1000 * 60 * 60 * 6);
+    parseEPG();
     io.on('connection', function(socket){
         currentOnline++;
         console.log('[Connect]' + socket.id);
         io.sockets.emit('onlineStatus',currentOnline);
+        socket.emit('programmeStatus',[currentProg,nextProg]);
         socket.on('disconnect', function(){
             currentOnline--;
             console.log('[Drop]'+socket.id);
@@ -42,7 +51,43 @@ http.listen(8081, function(){
     });
 });
 
-
+function parseEPG(){
+    console.log('Parsing latest EPG...')
+    request('http://viu.tv/epg/99', function (error, response, body) {
+      if (!error && response.statusCode == 200) {
+          var regexp = /<script>setTimeout\(changeLiveIndicator, 0\);\n\nvar epgs = (.*);/gmi;
+          var chopped = regexp.exec(body);
+          var epgs = JSON.parse(chopped[1]);
+          var today = new Date();
+          var todayStr = today.getFullYear() +''+ ((today.getMonth()+1)<10 ? '0':'')+(today.getMonth()+1) +''+ ((today.getDate()+1)<10 ? '0':'')+(today.getDate()+1);
+          todayEpg = [];
+          epgs.forEach(function(entry) {
+              if(entry.date == todayStr)
+                todayEpg.push(entry);
+          });
+          findEPG();
+      }
+    });
+    
+}
+function findEPG(){
+    var timeNow = new Date().getTime();
+          for(var i=0;i<todayEpg.length;i++){
+              if(todayEpg[i].end > timeNow){
+                currentProg = todayEpg[i];
+                nextProg = todayEpg[i+1];
+                break;
+              }
+          }
+          resetUpdateTimer();
+          console.log('Current Prog: '+currentProg.program_title);
+          io.sockets.emit('programmeStatus',[currentProg,nextProg]);
+}
+function resetUpdateTimer(){
+    var timeNow = new Date().getTime();
+    var diff = currentProg.end - timeNow;
+    programmeUpdateTimer = setTimeout(findEPG, diff);
+}
 
 
 // CORS setting --start

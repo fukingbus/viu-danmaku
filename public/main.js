@@ -56,6 +56,25 @@ function connectSocket(){
     socket.on('onlineStatus', function(status){
         $('#currentOnline').text('線上: '+status);
     });
+    socket.on('programmeStatus', function(obj){
+        console.log(obj);
+        progName = obj[0].program_title + ' → ' + obj[1].program_title;
+        $('#currentProgramme').text(progName);
+        setInterval(function () {
+            timeNow = new Date().getTime();
+            diff = obj[0].end - timeNow;
+            var ms = diff % 1000;
+              diff = (diff - ms) / 1000;
+              var secs = diff % 60;
+              diff = (diff - secs) / 60;
+              var mins = diff % 60;
+              var hrs = (diff - mins) / 60;
+              secs = (secs<10 ? '0':'')+secs; 
+              mins = (mins<10 ? '0':'')+mins; 
+              hrs = (hrs<10 ? '0':'')+hrs;
+            $('#timer').text(hrs+':'+mins+':'+secs);
+        }, 1000);
+    });
 }
 function popDanmaku(msg){
     var comment = {

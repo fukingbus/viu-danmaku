@@ -10,11 +10,15 @@
 </head>
 
 <body>
-<div id="currentOnline"></div>
+<div id="currentStatus">
+	<span id="currentOnline"></span><br>
+	<span id="currentProgramme"></span><br>
+	<span id="timer"></span>
+</div>
 <div id="playerContainer" width="100%" height="100%">
 	<div id="danmakuPanelContainer"><input class="danmakuPanel"type="text" maxlength="64"></div>
 	<div id="danmakuContainer">
-		<video id=player class="video-js " > 
+		<video id=player class="video-js" controls > 
 			  <source
 			     src="http://viu.wtako.net/stream/index.m3u8"
 			     type="application/x-mpegURL">
