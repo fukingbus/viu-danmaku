@@ -27,27 +27,27 @@ httpServer.listen(8081, function(){
     setTimeout(parseEPG, 1000 * 60 * 60 * 6);
     parseEPG();
     io.on('connection', function(socket){
-        currentOnline++;
         console.log('[Connect]' + socket.id);
-        io.sockets.emit('onlineStatus',currentOnline);
-        socket.emit('programmeStatus',[currentProg,nextProg]);
-        socket.on('disconnect', function(){
-            currentOnline--;
-            console.log('[Drop]'+socket.id);
+            currentOnline++;
             io.sockets.emit('onlineStatus',currentOnline);
-        });
-        socket.on('submitDanmaku', function(msg){
-            if(new Date().getTime() - socket.lastMsgTime > 5000 || socket.lastMsgTime==null){
-                currDate = new Date();
-                dateStr = currDate.getHours() + ":" + currDate.getMinutes() + ":" + currDate.getSeconds();
-                if(msg.length <= 64){
-                    console.log('['+dateStr+']:'+msg);
-                    io.sockets.emit('postDanmaku',msg);
-                    socket.lastMsgTime = currDate.getTime();
+            socket.emit('programmeStatus',[currentProg,nextProg]);
+            socket.on('disconnect', function(){
+                currentOnline--;
+                console.log('[Drop]'+socket.id);
+                io.sockets.emit('onlineStatus',currentOnline);
+            });
+            socket.on('submitDanmaku', function(content){
+                if(new Date().getTime() - socket.lastMsgTime > 5000 || socket.lastMsgTime==null){
+                    currDate = new Date();
+                    dateStr = currDate.getHours() + ":" + currDate.getMinutes() + ":" + currDate.getSeconds();
+                    if(content.msg.length <= 64){
+                        console.log('['+dateStr+']:'+content.msg+' '+content.mode);
+                        io.sockets.emit('postDanmaku',content);
+                        socket.lastMsgTime = currDate.getTime();
+                    }
                 }
-            }
-            
-        });
+                
+            });
     });
 });
 

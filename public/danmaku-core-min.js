@@ -379,8 +379,16 @@
     var createCommentNode = function(cmt) {
         var node = document.createElement('div');
         node.appendChild(document.createTextNode(cmt.text));
-        var topPercent = (Math.random() * 70) + 1;
-        node.style.cssText = 'top:'+topPercent+'%;position:absolute;display:block;white-space:nowrap;';
+        node.style.cssText = 'display:block;white-space:nowrap;';
+        if(cmt.mode == 'rtl'){
+            var topPercent = (Math.random() * 70) + 1;
+            node.style.cssText = 'top:'+topPercent+'%;position:absolute;'+node.style.cssText;
+        }
+        else if(cmt.mode == 'bottom'){
+            var bottomPercent = 10 + (Math.random() * 20) + 1;
+            node.style.cssText = 'bottom:'+bottomPercent+'%;margin 0 auto;right:0;left:0;position:absolute;'+node.style.cssText;
+        }
+        
         if (cmt.style) {
             for (var key in cmt.style) {
                 node.style[key] = cmt.style[key];

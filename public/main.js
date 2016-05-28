@@ -2,6 +2,7 @@
   global videojs
 */
 var socket,danmakuEngine,countdown;
+var danmakuMode = 'rtl';
 
 $(function() {
     var player = videojs('player');
@@ -21,7 +22,15 @@ $(document).keypress(function (e) {
 $(window).resize(function(){
     danmakuEngine.resize();
 });
-
+$( "#set-dmk-top" ).click(function() {
+  danmakuMode = 'top';
+});
+$( "#set-dmk-bottom" ).click(function() {
+  danmakuMode = 'bottom';
+});
+$( "#set-dmk-scroll" ).click(function() {
+  danmakuMode = 'rtl';
+});
 function toggleDanmakuPanel(){
     onShow = ($('#danmakuPanelContainer').css('display') == 'block');
     if(onShow){
@@ -46,12 +55,18 @@ function toggleDanmakuPanel(){
 }
 
 function submitDanmaku(msg){
-    socket.emit('submitDanmaku',msg);
+    var content = {
+        'msg':msg,
+        'mode':danmakuMode
+    }
+    socket.emit('submitDanmaku',content);
+    danmakuMode = 'rtl';
 }
 function connectSocket(){
     socket = io();
-    socket.on('postDanmaku', function(msg){
-        popDanmaku(msg);
+    socket.on('postDanmaku', function(content){
+        console.log(content);
+        popDanmaku(content);
     });
     socket.on('onlineStatus', function(status){
         $('#currentOnline').text('線上: '+status);
@@ -81,10 +96,10 @@ function connectSocket(){
         }, 1000);
     });
 }
-function popDanmaku(msg){
+function popDanmaku(content){
     var comment = {
-      text: msg,
-      mode: 'rtl',
+      text: content.msg,
+      mode: content.mode,
       style: {
         fontSize: '48px',
         color: '#ffffff',

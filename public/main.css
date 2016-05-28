@@ -36,7 +36,7 @@
     box-shadow: 0px 0px 8px #d9d9d9;
     -moz-box-shadow: 0px 0px 8px #d9d9d9;
     -webkit-box-shadow: 0px 0px 8px #d9d9d9;
-    
+    margin-top: 4px;
 }
 .danmakuPanel:focus {
     outline: none;
@@ -44,6 +44,20 @@
     box-shadow: 0px 0px 8px #7bc1f7;
     -moz-box-shadow: 0px 0px 8px #7bc1f7;
     -webkit-box-shadow: 0px 0px 8px #7bc1f7;
+}
+.set-danmaku-button {
+	font-size:16px;
+	font-family:Arial;
+	font-weight:normal;
+	-moz-border-radius:8px;
+	-webkit-border-radius:8px;
+	border-radius:8px;
+	border:1px solid #7bc1f7;
+	padding:9px 18px;
+	text-decoration:none;
+	background: rgba(255, 255, 255, 0.45);
+	color:#ffffff;
+	display:inline-block;
 }
 .video-js {
     width: 100%;
