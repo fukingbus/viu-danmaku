@@ -1,7 +1,7 @@
 /*global $
   global videojs
 */
-var socket,danmakuEngine;
+var socket,danmakuEngine,countdown;
 
 $(function() {
     var player = videojs('player');
@@ -60,19 +60,24 @@ function connectSocket(){
         console.log(obj);
         progName = obj[0].program_title + ' → ' + obj[1].program_title;
         $('#currentProgramme').text(progName);
-        setInterval(function () {
+        clearInterval(countdown);
+        countdown = setInterval(function () {
             timeNow = new Date().getTime();
             diff = obj[0].end - timeNow;
-            var ms = diff % 1000;
-              diff = (diff - ms) / 1000;
-              var secs = diff % 60;
-              diff = (diff - secs) / 60;
-              var mins = diff % 60;
-              var hrs = (diff - mins) / 60;
-              secs = (secs<10 ? '0':'')+secs; 
-              mins = (mins<10 ? '0':'')+mins; 
-              hrs = (hrs<10 ? '0':'')+hrs;
-            $('#timer').text(hrs+':'+mins+':'+secs);
+            if(diff>0){
+                var ms = diff % 1000;
+                  diff = (diff - ms) / 1000;
+                  var secs = diff % 60;
+                  diff = (diff - secs) / 60;
+                  var mins = diff % 60;
+                  var hrs = (diff - mins) / 60;
+                  secs = (secs<10 ? '0':'')+secs; 
+                  mins = (mins<10 ? '0':'')+mins; 
+                  hrs = (hrs<10 ? '0':'')+hrs;
+                $('#timer').text(hrs+':'+mins+':'+secs);
+            }
+            else
+                clearInterval(countdown);
         }, 1000);
     });
 }

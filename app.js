@@ -59,7 +59,7 @@ function parseEPG(){
           var chopped = regexp.exec(body);
           var epgs = JSON.parse(chopped[1]);
           var today = new Date();
-          var todayStr = today.getFullYear() +''+ ((today.getMonth()+1)<10 ? '0':'')+(today.getMonth()+1) +''+ ((today.getDate()+1)<10 ? '0':'')+(today.getDate()+1);
+          var todayStr = today.getFullYear() +''+ ((today.getMonth()+1)<10 ? '0':'')+(today.getMonth()+1) +''+ ((today.getDate())<10 ? '0':'')+(today.getDate());
           todayEpg = [];
           epgs.forEach(function(entry) {
               if(entry.date == todayStr)
@@ -73,7 +73,7 @@ function parseEPG(){
 function findEPG(){
     var timeNow = new Date().getTime();
           for(var i=0;i<todayEpg.length;i++){
-              if(todayEpg[i].end > timeNow){
+              if(todayEpg[i].end > timeNow && todayEpg[i].start < timeNow){
                 currentProg = todayEpg[i];
                 nextProg = todayEpg[i+1];
                 break;
