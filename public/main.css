@@ -17,6 +17,8 @@
     left: 8px;
     top: 8px;
     z-index: 10;
+    color: white;
+    text-shadow: 1px 1px #000000;
 }
 .Danmaku-stage{
     position: absolute !important;
@@ -30,7 +32,7 @@
     color: white;
     padding: 4px 4px 4px 4px;
     border-radius: 4px;
-    background: rgba(255, 255, 255, 0.45);
+    background: rgba(192, 192, 192, 0.50);
     -moz-border-radius: 4px;
     -webkit-border-radius: 4px;
     box-shadow: 0px 0px 8px #d9d9d9;
@@ -55,7 +57,7 @@
 	border:1px solid #7bc1f7;
 	padding:9px 18px;
 	text-decoration:none;
-	background: rgba(255, 255, 255, 0.45);
+	background: rgba(192, 192, 192, 0.50);
 	color:#ffffff;
 	display:inline-block;
 }
@@ -74,6 +76,17 @@
     width: 100%;
     height: 100%;
     position: absolute;
+    overflow-x: hidden;
+}
+.vjs-menu li {
+    list-style: none;
+    margin: 0;
+    padding: 0.2em 0;
+    line-height: 1.4em;
+    font-size: 1.2em;
+    text-align: center;
+    text-transform: lowercase;
+    width: 64px;
 }
 .vjs-tech {
   pointer-events: none;

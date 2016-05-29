@@ -5,14 +5,22 @@ var socket,danmakuEngine,countdown;
 var danmakuMode = 'rtl';
 
 $(function() {
-    var player = videojs('player');
-	player.play();
+    videojs('player').ready(function(){
+      this.play();
+      $( '.vjs-audio-button > .vjs-menu > .vjs-menu-content > li' ).each(function( index ) {
+            if($(this).text()=='chi_1, selected')
+                $(this).text('粵語');
+            else
+                $(this).text('原始');
+        });
+    });
 	connectSocket();
 	danmakuEngine = new Danmaku();
 	danmakuEngine.init({
       engine: 'dom',
       container: document.getElementById('danmakuContainer')
     });
+    
 });
 $(document).keypress(function (e) {
         if (e.which == 13) {
@@ -101,7 +109,7 @@ function popDanmaku(content){
       text: content.msg,
       mode: content.mode,
       style: {
-        fontSize: '48px',
+        fontSize: 48-content.msg.length,
         color: '#ffffff',
         textShadow: '-1px -1px #000, -1px 1px #000, 1px -1px #000, 1px 1px #000'
       }

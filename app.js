@@ -40,8 +40,8 @@ httpServer.listen(8081, function(){
                 if(new Date().getTime() - socket.lastMsgTime > 5000 || socket.lastMsgTime==null){
                     currDate = new Date();
                     dateStr = currDate.getHours() + ":" + currDate.getMinutes() + ":" + currDate.getSeconds();
-                    if(content.msg.length <= 64){
-                        console.log('['+dateStr+']:'+content.msg+' '+content.mode);
+                    if(content.msg.length <= 32){
+                        console.log('['+dateStr+']'+socket.id+':'+content.msg+' '+content.mode);
                         io.sockets.emit('postDanmaku',content);
                         socket.lastMsgTime = currDate.getTime();
                     }
