@@ -21,6 +21,14 @@ var initCCDanmaku = function(){
         else
             $(this).text('彈幕關閉');
     });
+  $('div.vjs-subtitles-button > div > ul > li:nth-child(2)').click(function() {
+    console.log('closes Danmaku');
+    danmakuEngine.hide();
+  });
+  $('div.vjs-subtitles-button > div > ul > li:nth-child(1)').click(function() {
+    console.log('activates Danmaku');
+    danmakuEngine.show();
+  });
 }
 $(function() {
   if (!(navigator.userAgent.indexOf('Safari') != -1 && navigator.userAgent.indexOf('Chrome') == -1)) {
@@ -64,12 +72,7 @@ $(function() {
 $(window).resize(function(){
     danmakuEngine.resize();
 });
-$('div.vjs-subtitles-button > div > ul > li:nth-child(2)').click(function() {
-  console.log('close Danmaku');
-});
-$('div.vjs-subtitles-button > div > ul > li:nth-child(2)').click(function() {
-  console.log('activate Danmaku');
-});
+
 $( "#set-dmk-top" ).click(function() {
   danmakuMode = 'top';
 });
