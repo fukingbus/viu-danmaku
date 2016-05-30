@@ -5,6 +5,7 @@ var socket,danmakuEngine,countdown;
 var danmakuMode = 'rtl';
 
 $(function() {
+  if (!(navigator.userAgent.indexOf('Safari') != -1 && navigator.userAgent.indexOf('Chrome') == -1)) {
     videojs('player').ready(function(){
       this.play();
       $( '.vjs-audio-button > .vjs-menu > .vjs-menu-content > li' ).each(function( index ) {
@@ -14,13 +15,15 @@ $(function() {
                 $(this).text('原始');
         });
     });
+  }
+
 	connectSocket();
 	danmakuEngine = new Danmaku();
 	danmakuEngine.init({
       engine: 'dom',
       container: document.getElementById('danmakuContainer')
     });
-    
+
 });
 $(document).keypress(function (e) {
         if (e.which == 13) {
@@ -54,7 +57,7 @@ function toggleDanmakuPanel(){
             }
             $('.danmakuPanel').val('');
             $('#danmakuPanelContainer').fadeOut(300);
-        }   
+        }
     }
     else{
         $('#danmakuPanelContainer').fadeIn(300);
@@ -94,8 +97,8 @@ function connectSocket(){
                   diff = (diff - secs) / 60;
                   var mins = diff % 60;
                   var hrs = (diff - mins) / 60;
-                  secs = (secs<10 ? '0':'')+secs; 
-                  mins = (mins<10 ? '0':'')+mins; 
+                  secs = (secs<10 ? '0':'')+secs;
+                  mins = (mins<10 ? '0':'')+mins;
                   hrs = (hrs<10 ? '0':'')+hrs;
                 $('#timer').text(hrs+':'+mins+':'+secs);
             }
