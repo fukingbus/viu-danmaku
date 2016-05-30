@@ -16,6 +16,7 @@ var initTipsArr = [
 ];
 
 $(function() {
+  if (!(navigator.userAgent.indexOf('Safari') != -1 && navigator.userAgent.indexOf('Chrome') == -1)) {
     videojs('player').ready(function(){
       this.play();
       $( '.vjs-audio-button > .vjs-menu > .vjs-menu-content > li' ).each(function( index ) {
@@ -25,12 +26,15 @@ $(function() {
                 $(this).text('原始');
         });
     });
+  }
+
 	connectSocket();
 	danmakuEngine = new Danmaku();
 	danmakuEngine.init({
       engine: 'dom',
       container: document.getElementById('danmakuContainer')
     });
+<<<<<<< HEAD
     tipsMsg = getRandomTips(true);
     var initTips ={
         'msg': tipsMsg,
@@ -39,6 +43,9 @@ $(function() {
     popDanmaku(initTips);
     popTips();
     tipsTimer = setInterval(popTips, 15000);
+=======
+
+>>>>>>> e4c36ca855d3bde02cb4e529459d9afea1f75b8b
 });
 
 $(document).keypress(function (e) {
@@ -73,7 +80,7 @@ function toggleDanmakuPanel(){
             }
             $('.danmakuPanel').val('');
             $('#danmakuPanelContainer').fadeOut(300);
-        }   
+        }
     }
     else{
         $('#danmakuPanelContainer').fadeIn(300);
@@ -113,8 +120,8 @@ function connectSocket(){
                   diff = (diff - secs) / 60;
                   var mins = diff % 60;
                   var hrs = (diff - mins) / 60;
-                  secs = (secs<10 ? '0':'')+secs; 
-                  mins = (mins<10 ? '0':'')+mins; 
+                  secs = (secs<10 ? '0':'')+secs;
+                  mins = (mins<10 ? '0':'')+mins;
                   hrs = (hrs<10 ? '0':'')+hrs;
                 $('#timer').text(hrs+':'+mins+':'+secs);
             }
@@ -147,6 +154,7 @@ function popWarning(msg){
     };
     danmakuEngine.emit(comment);
 }
+<<<<<<< HEAD
 function getRandomTips(isInitTips){
     arr = isInitTips ? initTipsArr : tipsArr;
     return arr[Math.floor(Math.random() * arr.length)];
@@ -156,3 +164,5 @@ function popTips(){
     $('#tips').text(getRandomTips(false));
     $('#tips').fadeIn(300);
 }
+=======
+>>>>>>> e4c36ca855d3bde02cb4e529459d9afea1f75b8b
