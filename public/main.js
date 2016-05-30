@@ -1,8 +1,19 @@
 /*global $
   global videojs
 */
-var socket,danmakuEngine,countdown;
+var socket,danmakuEngine,countdown,tipsTimer;
 var danmakuMode = 'rtl';
+var tipsArr = [
+        '若聲畫不同步或無聲，請重新載入 (F5)',
+        '歡迎向開發人員提交建議',
+        '若出現錯誤 請重新載入',
+        '右下角可以選擇聲道',
+        '按 Enter 輸入彈幕 再按一次送出',
+];
+var initTipsArr = [
+    '歡迎！若聲畫不同步或無聲，請重新載入 (F5)',
+    '歡迎！按 Enter 輸入彈幕 再按一次送出'
+];
 
 $(function() {
     videojs('player').ready(function(){
@@ -20,8 +31,16 @@ $(function() {
       engine: 'dom',
       container: document.getElementById('danmakuContainer')
     });
-    
+    tipsMsg = getRandomTips(true);
+    var initTips ={
+        'msg': tipsMsg,
+        'mode':'bottom'
+    };
+    popDanmaku(initTips);
+    popTips();
+    tipsTimer = setInterval(popTips, 15000);
 });
+
 $(document).keypress(function (e) {
         if (e.which == 13) {
             toggleDanmakuPanel();
@@ -127,4 +146,13 @@ function popWarning(msg){
       }
     };
     danmakuEngine.emit(comment);
+}
+function getRandomTips(isInitTips){
+    arr = isInitTips ? initTipsArr : tipsArr;
+    return arr[Math.floor(Math.random() * arr.length)];
+}
+function popTips(){
+    $('#tips').hide();
+    $('#tips').text(getRandomTips(false));
+    $('#tips').fadeIn(300);
 }

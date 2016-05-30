@@ -24,7 +24,7 @@ antiSpammer.init({
 });
 httpServer.listen(8081, function(){
   console.log(new Date().toISOString() + ": server started on port 8081");
-    setTimeout(parseEPG, 1000 * 60 * 60 * 6);
+    setTimeout(parseEPG, 1000 * 60 * 60 * 3);
     parseEPG();
     io.on('connection', function(socket){
         console.log('[Connect]' + socket.id);
@@ -60,9 +60,10 @@ function parseEPG(){
           var epgs = JSON.parse(chopped[1]);
           var today = new Date();
           var todayStr = today.getFullYear() +''+ ((today.getMonth()+1)<10 ? '0':'')+(today.getMonth()+1) +''+ ((today.getDate())<10 ? '0':'')+(today.getDate());
+          var tomorrowStr = today.getFullYear() +''+ ((today.getMonth()+1)<10 ? '0':'')+(today.getMonth()+1) +''+ ((today.getDate()+1)<10 ? '0':'')+(today.getDate()+1);
           todayEpg = [];
           epgs.forEach(function(entry) {
-              if(entry.date == todayStr)
+              if(entry.date == todayStr || entry.date == tomorrowStr)
                 todayEpg.push(entry);
           });
           findEPG();
