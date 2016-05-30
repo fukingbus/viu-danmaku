@@ -34,7 +34,6 @@ $(function() {
       engine: 'dom',
       container: document.getElementById('danmakuContainer')
     });
-<<<<<<< HEAD
     tipsMsg = getRandomTips(true);
     var initTips ={
         'msg': tipsMsg,
@@ -43,9 +42,7 @@ $(function() {
     popDanmaku(initTips);
     popTips();
     tipsTimer = setInterval(popTips, 15000);
-=======
 
->>>>>>> e4c36ca855d3bde02cb4e529459d9afea1f75b8b
 });
 
 $(document).keypress(function (e) {
@@ -154,7 +151,6 @@ function popWarning(msg){
     };
     danmakuEngine.emit(comment);
 }
-<<<<<<< HEAD
 function getRandomTips(isInitTips){
     arr = isInitTips ? initTipsArr : tipsArr;
     return arr[Math.floor(Math.random() * arr.length)];
@@ -164,5 +160,4 @@ function popTips(){
     $('#tips').text(getRandomTips(false));
     $('#tips').fadeIn(300);
 }
-=======
->>>>>>> e4c36ca855d3bde02cb4e529459d9afea1f75b8b
+
