@@ -17,12 +17,12 @@ antiSpammer.init({
     banTime: 30,            // Ban time in minutes
     kickThreshold: 2,       // User gets kicked after this many spam score
     kickTimesBeforeBan: 5,  // User gets banned after this many kicks
-    banning: true,          // Uses temp IP banning after kickTimesBeforeBan 
-    heartBeatStale: 40,     // Removes a heartbeat after this many seconds 
-    heartBeatCheck: 4,      // Checks a heartbeat per this many seconds 
+    banning: true,          // Uses temp IP banning after kickTimesBeforeBan
+    heartBeatStale: 40,     // Removes a heartbeat after this many seconds
+    heartBeatCheck: 4,      // Checks a heartbeat per this many seconds
     io: io,          // Bind the socket.io variable
 });
-httpServer.listen(8081, function(){
+httpServer.listen(8080, function(){
   console.log(new Date().toISOString() + ": server started on port 8081");
     setTimeout(parseEPG, 1000 * 60 * 60 * 3);
     parseEPG();
@@ -46,7 +46,7 @@ httpServer.listen(8081, function(){
                         socket.lastMsgTime = currDate.getTime();
                     }
                 }
-                
+
             });
     });
 });
@@ -69,7 +69,7 @@ function parseEPG(){
           findEPG();
       }
     });
-    
+
 }
 function findEPG(){
     var timeNow = new Date().getTime();
