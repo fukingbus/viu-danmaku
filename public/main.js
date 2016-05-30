@@ -14,17 +14,27 @@ var initTipsArr = [
     '歡迎！若聲畫不同步或無聲，請重新載入 (F5)',
     '歡迎！按 Enter 輸入彈幕 再按一次送出'
 ];
-
+var initCCDanmaku = function(){
+  $( '.vjs-subtitles-button > .vjs-menu > .vjs-menu-content > li' ).each(function( index ) {
+        if($(this).text()=='subtitles off, selected')
+            $(this).text('彈幕開啟');
+        else
+            $(this).text('彈幕關閉');
+    });
+}
 $(function() {
   if (!(navigator.userAgent.indexOf('Safari') != -1 && navigator.userAgent.indexOf('Chrome') == -1)) {
     videojs('player').ready(function(){
       this.play();
+      this.addRemoteTextTrack();
+
       $( '.vjs-audio-button > .vjs-menu > .vjs-menu-content > li' ).each(function( index ) {
-            if($(this).text()=='chi_1, selected')
-                $(this).text('粵語');
-            else
-                $(this).text('原始');
-        });
+              if($(this).text()=='chi_1, selected')
+                  $(this).text('粵語');
+              else
+                  $(this).text('原始');
+          });
+          setTimeout(initCCDanmaku, 300);
     });
   }
 
@@ -45,13 +55,20 @@ $(function() {
 
 });
 
-$(document).keypress(function (e) {
+
+  $(document).keypress(function (e) {
         if (e.which == 13) {
             toggleDanmakuPanel();
         }
 });
 $(window).resize(function(){
     danmakuEngine.resize();
+});
+$('div.vjs-subtitles-button > div > ul > li:nth-child(2)').click(function() {
+  console.log('close Danmaku');
+});
+$('div.vjs-subtitles-button > div > ul > li:nth-child(2)').click(function() {
+  console.log('activate Danmaku');
 });
 $( "#set-dmk-top" ).click(function() {
   danmakuMode = 'top';
@@ -160,4 +177,3 @@ function popTips(){
     $('#tips').text(getRandomTips(false));
     $('#tips').fadeIn(300);
 }
-

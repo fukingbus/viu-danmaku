@@ -23,7 +23,7 @@ antiSpammer.init({
     io: io,          // Bind the socket.io variable
 });
 httpServer.listen(8080, function(){
-  console.log(new Date().toISOString() + ": server started on port 8081");
+  console.log(new Date().toISOString() + ": server started on port 8080");
     setTimeout(parseEPG, 1000 * 60 * 60 * 3);
     parseEPG();
     io.on('connection', function(socket){
